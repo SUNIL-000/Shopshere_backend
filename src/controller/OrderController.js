@@ -1,4 +1,5 @@
 import { Order } from "../model/orderModel.js";
+import { UpdateStock } from "../utils/updateStock.js";
 
 export const CreateOrder = async (req, res) => {
   try {
@@ -30,6 +31,7 @@ export const CreateOrder = async (req, res) => {
         message: "Failed to create order",
       });
     }
+    await UpdateStock(orderItems);
     return res.status(201).json({
       success: true,
       message: "Order successfully.",
