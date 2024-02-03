@@ -23,7 +23,7 @@ export const CreateOrder = async (req, res) => {
       total,
       orderItems,
     });
-    console.log(newOrder);
+    // console.log(newOrder);
     if (!newOrder) {
       return res.status(400).json({
         success: false,
