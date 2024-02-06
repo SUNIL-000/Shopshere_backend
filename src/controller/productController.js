@@ -6,11 +6,11 @@ import fs from "fs/promises";
 //creating product
 export const createProduct = async (req, res) => {
   try {
-    const { name, price, stock, category } = req.body;
-    const photo = req.file;
+    const { name, price, stock, category } =await  req.body;
+    const photo =await req.file;
     if (!photo) {
       return res.status(400).json({
-        success: true,
+        success: false,
         message: " please upload photo",
       });
     }
@@ -19,7 +19,7 @@ export const createProduct = async (req, res) => {
         console.log("photo deleted ");
       });
       return res.status(400).json({
-        success: true,
+        success: false,
         message: " please fill all the required fields",
       });
     }
@@ -41,7 +41,7 @@ export const createProduct = async (req, res) => {
     return res.status(400).json({
       success: false,
       message: "failed to create product",
-      error,
+      
     });
   }
 };
@@ -94,6 +94,9 @@ export const deleteProduct = async (req, res) => {
     const { id } = req.params;
     const SingleProduct = await Product.findByIdAndDelete({
       _id: id,
+    });
+    rm(SingleProduct.photo, () => {
+      console.log("photo deleted ");
     });
 
     return res.status(200).json({

@@ -1,27 +1,32 @@
 import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors'
+import { config } from 'dotenv';
 import { DBconnect } from './src/utils/dbConnect.js';
 import { user } from './src/routes/userRoutes.js';
-import cors from 'cors'
 import { productRoutes } from './src/routes/productRoutes.js';
 import { OrderRoutes } from './src/routes/orderRoutes.js';
-import morgan from 'morgan';
 import { couponRoutes } from './src/routes/couponRoutes.js';
-import { config } from 'dotenv';
-
+import bodyParser from 'body-parser'
+import Stripe from 'stripe';
 
 const app=express();
 config({
     path:".env"
 })
-config.get
-//middlewarw
+const stripeKey = process.env.STRIPE_KEY;
+//middleware
+DBconnect();
+export const stripe =new Stripe(stripeKey);
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
+app.use(express.json({ limit: "100mb"}));
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(morgan("dev"))
 app.use(cors());
 app.use("/uploads",express.static("uploads"))
-DBconnect();
-let base ={};
+
 
 //routes users
 app.use('/api/v1/user',user)

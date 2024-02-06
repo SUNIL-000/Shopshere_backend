@@ -11,7 +11,7 @@ user.post("/new", createUser);
 user.get("/all", isAdmin, getAllUser);
 
 //getiing sigle user by :id
-user.get("/:id", isAdmin, getSingleUser);
+user.get("/:id",  getSingleUser);
 
 //deleteing single user
 user.delete("/:id", isAdmin, DeleteUser);
